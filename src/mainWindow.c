@@ -2,6 +2,8 @@
 
 #include <gtk/gtk.h>
 
+#include "toolbar.h"
+
 GtkWidget* window;
 
 /**
@@ -14,6 +16,10 @@ void MainWindow_AppActivate(GtkApplication* app, gpointer user_data)
     window = gtk_application_window_new(app);
     gtk_window_set_title(GTK_WINDOW(window), "LIGMA");
     gtk_window_set_default_size(GTK_WINDOW(window), 800, 600);
+
+    Toolbar_Create();
+    
+
     gtk_widget_show_all(window);
 }
 
@@ -23,5 +29,6 @@ void MainWindow_AppActivate(GtkApplication* app, gpointer user_data)
 **/
 void MainWindow_AppShutdown(GtkApplication* app, gpointer user_data)
 {
+    Toolbar_Destroy();
     printf("Bye!\n");
 }
