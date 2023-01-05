@@ -55,4 +55,4 @@ dkms.conf
 .vscode
 
 #BIN
-bin/
+bin/*
