@@ -9,7 +9,7 @@ GTKFLAGS=`pkg-config --cflags gtk+-3.0`
 dev: bin/ligma-dev
 release: ligma-release
 
-bin/ligma-dev: src/main.c src/mainWindow.c
+bin/ligma-dev: src/main.c src/mainWindow.c src/toolbar.c src/viewport.c
 	${CC} $^ ${GTKFLAGS} -o bin/ligma-dev ${GTKLIBS}
 
 clean:
