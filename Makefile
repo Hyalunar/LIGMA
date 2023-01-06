@@ -10,7 +10,7 @@ DEVFLAGS=-ggdb
 dev: bin/ligma-dev
 release: ligma-release
 
-bin/ligma-dev: src/main.c src/mainWindow.c src/toolbar.c src/viewport.c src/filelist.c
+bin/ligma-dev: src/main.c src/mainWindow.c src/toolbar.c src/viewport.c src/imagelist.c
 	${CC} $^ ${GTKFLAGS} ${DEVFLAGS} -o bin/ligma-dev ${GTKLIBS}
 
 clean:
