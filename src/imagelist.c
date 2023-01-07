@@ -25,7 +25,7 @@ void Imagelist_Create()
     gtk_list_box_prepend(GTK_LIST_BOX(Imagelist), headerRow);
 }
 
-/// @brief Return the Widget serving as a Imagelist
+/// @brief Return the Widget serving as an Imagelist
 /// @return Imagelist
 GtkWidget* Imagelist_GetWidget()
 {
