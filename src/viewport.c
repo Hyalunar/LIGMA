@@ -55,6 +55,8 @@ gboolean Viewport_MotionNotifyEvent_Callback(GtkWidget* widget, GdkEventMotion* 
         cairo_t* cairo = cairo_create(widgetSurface);
         // Cairo Context
 
+        GdkRGBA primaryRGBA = Colorchooser_GetPrimaryRGBA();
+        cairo_set_source_rgba(cairo, primaryRGBA.red, primaryRGBA.green, primaryRGBA.blue, primaryRGBA.alpha);
         cairo_rectangle(cairo, event->x - 3.0, event->y - 3.0, 7.0, 7.0);
         cairo_fill(cairo);
 

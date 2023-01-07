@@ -6,6 +6,8 @@
 #include <gtk/gtk.h>
 #include <cairo/cairo.h>
 
+#include "colorchooser.h"
+
 void Viewport_Create();
 GtkWidget* Viewport_GetWidget();
 
