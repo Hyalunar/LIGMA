@@ -18,11 +18,13 @@ void Toolbar_TbNew_Onclick()
 void Toolbar_TbOpen_Onclick()
 {
     printf("Opening File!\n");
+    //TODO: Open FileChooserDialog and evaluate it
 }
 
 void Toolbar_TbSave_Onclick()
 {
     printf("Saving File!\n");
+    //TODO: open FileChooserDialog and evaluate it
 }
 
 void Toolbar_Create()
