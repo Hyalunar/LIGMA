@@ -7,9 +7,9 @@
     provided. 
 **/
 
-void Ligma_OnLoad();
-void Ligma_OnUnload();
-void Ligma_GetParameters();
-void Ligma_Process(int width, int height, char* bitmap);
+extern void Ligma_OnLoad();
+extern void Ligma_OnUnload();
+extern void Ligma_GetParameters();
+extern void Ligma_Process(int width, int height, char* bitmap);
 
 #endif // LIGMAPLUG_H
