@@ -9,7 +9,7 @@
 
 extern void Ligma_OnLoad();
 extern void Ligma_OnUnload();
-extern void Ligma_GetParameters();
+extern void Ligma_GetPluginInfo();
 extern void Ligma_Process(int width, int height, char* bitmap);
 
 #endif // LIGMAPLUG_H
