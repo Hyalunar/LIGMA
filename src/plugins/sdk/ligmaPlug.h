@@ -7,9 +7,13 @@
     provided. 
 **/
 
-extern void Ligma_OnLoad();
-extern void Ligma_OnUnload();
-extern void Ligma_GetPluginInfo();
-extern void Ligma_Process(int width, int height, char* bitmap);
+#define PARAMETERS_BEGIN() char* metadata = 
+#define ADD_PARAMETER(n, t) n "," #t "|"
+#define PARAMETERS_END() ;
+
+extern void  Ligma_OnLoad();
+extern void  Ligma_OnUnload();
+extern char* Ligma_GetPluginInfo();
+extern void  Ligma_Process(int width, int height, char* bitmap);
 
 #endif // LIGMAPLUG_H
