@@ -17,8 +17,34 @@ void Toolbar_TbNew_Onclick()
 
 void Toolbar_TbOpen_Onclick()
 {
+    //TODO: Check for memory leaks
     printf("Opening File!\n");
-    //TODO: Open FileChooserDialog and evaluate it
+    GtkFileChooserNative* fileDialog;
+    GtkFileChooser*       fileChooser;
+    GtkFileFilter*        fileFilter;
+    fileDialog = gtk_file_chooser_native_new(
+        "Select file to Open",
+        NULL,
+        GTK_FILE_CHOOSER_ACTION_OPEN,
+        "Load",
+        "Cancel");
+    
+    fileChooser = GTK_FILE_CHOOSER(fileDialog);
+    gtk_file_chooser_set_select_multiple(fileChooser, TRUE);
+
+    fileFilter = gtk_file_filter_new();
+    gtk_file_filter_add_mime_type(fileFilter, "image/png");
+    gtk_file_filter_add_mime_type(fileFilter, "image/svg+xml");
+    gtk_file_filter_add_mime_type(fileFilter, "image/pdf");
+    
+    gtk_file_chooser_set_filter(fileChooser, fileFilter);
+
+    gint response = gtk_native_dialog_run(GTK_NATIVE_DIALOG(fileDialog));
+
+    if (response == GTK_RESPONSE_ACCEPT) {
+        GSList* fileNames = gtk_file_chooser_get_filenames(fileChooser);
+        g_slist_free_full(fileNames, free);
+    }
 }
 
 void Toolbar_TbSave_Onclick()
