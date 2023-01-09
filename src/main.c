@@ -1,5 +1,5 @@
 #include <gtk/gtk.h>
-#include "mainWindow.h"
+#include "ui/mainWindow.h"
 
 int main(int argc, char** argv)
 {
