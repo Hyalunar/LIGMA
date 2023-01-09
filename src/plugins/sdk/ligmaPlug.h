@@ -10,6 +10,6 @@
 void Ligma_OnLoad();
 void Ligma_OnUnload();
 void Ligma_GetParameters();
-void Ligma_Process(int width, int size, char* bitmap);
+void Ligma_Process(int width, int height, char* bitmap);
 
 #endif // LIGMAPLUG_H
