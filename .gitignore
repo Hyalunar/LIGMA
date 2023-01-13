@@ -56,3 +56,7 @@ dkms.conf
 
 #BIN
 bin/*
+
+# VIM Stuff
+*~
+*.swp
