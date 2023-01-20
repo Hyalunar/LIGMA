@@ -20,7 +20,7 @@ uiobjects: src/ui/Makefile
 	cd src/ui && ${MAKE}
 
 logicobjects: src/logic/Makefile
-	cd src/ui && ${MAKE}
+	cd src/logic && ${MAKE}
 
 clean:
 	${RM} -r bin
