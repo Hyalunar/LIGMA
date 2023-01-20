@@ -6,6 +6,7 @@
 #include "viewport.h"
 #include "effectstack.h"
 #include "colorchooser.h"
+#include "appmenu.h"
 
 GtkWidget* window;
 GtkWidget* layoutBox;
@@ -19,14 +20,16 @@ void MainWindow_AppActivate(GtkApplication* app, gpointer user_data)
 {
     window = gtk_application_window_new(app);
     gtk_window_set_title(GTK_WINDOW(window), "LIGMA");
-    gtk_window_set_default_size(GTK_WINDOW(window), 600, 400);
-
+    
     Toolbar_Create();
     Viewport_Create();
     Effectstack_Create();
     Colorchooser_Create();
+    AppMenu_Create();
+
 
     layoutBox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 15);
+    gtk_box_pack_start(GTK_BOX(layoutBox), AppMenu_GetWidget(), TRUE, FALSE, 0U);
     gtk_box_pack_start(GTK_BOX(layoutBox), GTK_WIDGET(Toolbar_GetWidget()), TRUE, FALSE, 15U);
     // Add Toolbar to master box
 
