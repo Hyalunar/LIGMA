@@ -17,10 +17,10 @@ bin/ligma-dev: uiobjects logicobjects
 	${CC} $(wildcard bin${DIR_DELIM}*.o) src${DIR_DELIM}main.c ${GTKFLAGS} ${DEVFLAGS} -o bin${DIR_DELIM}ligma-dev ${GTKLIBS}
 
 uiobjects: src/ui/Makefile
-	${MAKE} $^
+	cd src/ui && ${MAKE}
 
 logicobjects: src/logic/Makefile
-	${MAKE} $^
+	cd src/ui && ${MAKE}
 
 clean:
 	${RM} -r bin

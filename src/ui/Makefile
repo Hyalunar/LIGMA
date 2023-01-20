@@ -6,11 +6,12 @@ DEVFLAGS=-ggdb
 SOURCES := $(wildcard *.c)
 OBJECTS := $(patsubst %.c, ../../bin/%.o, ${SOURCES})
 
+.DEFAULT_TARGET: all
+
 all: ${OBJECTS}
 
 show:
-	@echo ${GTKLIBS}
-	@echo ${GTKFLAGS}
+	@echo ${OBJECTS}
 
 ../../bin/%.o: %.c
 	${CC} $^ ${GTKFLAGS} ${DEVFLAGS} ${GTKLIBS} -c -o $@
