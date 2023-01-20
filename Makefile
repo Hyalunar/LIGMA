@@ -1,6 +1,9 @@
+RM        := rm
+MKDIR     := mkdir
+CD        := cd
+DIR_DELIM := /
+
 CC=gcc
-RM=rm
-MKDIR=mkdir
 GTKLIBS=`pkg-config --libs gtk+-3.0`
 GTKFLAGS=`pkg-config --cflags gtk+-3.0`
 DEVFLAGS=-ggdb
@@ -8,13 +11,17 @@ DEVFLAGS=-ggdb
 .DEFAULT_TARGET := dev
 
 dev: bin/ligma-dev
-release: ligma-release
+release: bin/ligma-release
 
-bin/ligma-dev: src/main.c \
-				src/ui/mainWindow.c src/ui/toolbar.c src/ui/viewport.c src/ui/imagelist.c src/ui/colorchooser.c \
-				src/logic/image.c
-	${CC} $^ ${GTKFLAGS} ${DEVFLAGS} -o bin/ligma-dev ${GTKLIBS}
+bin/ligma-dev: uiobjects logicobjects
+	${CC} $(wildcard bin${DIR_DELIM}*.o) src${DIR_DELIM}main.c ${GTKFLAGS} ${DEVFLAGS} -o bin${DIR_DELIM}ligma-dev ${GTKLIBS}
+
+uiobjects: src/ui/Makefile
+	${MAKE} $^
+
+logicobjects: src/logic/Makefile
+	${MAKE} $^
 
 clean:
-	${RM} -r bin/
+	${RM} -r bin
 	${MKDIR} bin
