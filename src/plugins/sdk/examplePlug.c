@@ -23,7 +23,7 @@ char* Ligma_GetPluginInfo()
     return metadata;
 }
 
-void Ligma_Process(int width, int height, char* bitmap)
+void Ligma_Process(image_t* image)
 {
-    printf("ExamplePlug: Processing Image with size(%i, %i)\n", width, height);
+    printf("ExamplePlug: Processing Image with size(%i, %i)\n", image->height, image->width);
 }
