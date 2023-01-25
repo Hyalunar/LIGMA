@@ -4,8 +4,9 @@
 
 #include "toolbar.h"
 #include "viewport.h"
-#include "imagelist.h"
+#include "effectstack.h"
 #include "colorchooser.h"
+#include "appmenu.h"
 
 GtkWidget* window;
 GtkWidget* layoutBox;
@@ -19,24 +20,26 @@ void MainWindow_AppActivate(GtkApplication* app, gpointer user_data)
 {
     window = gtk_application_window_new(app);
     gtk_window_set_title(GTK_WINDOW(window), "LIGMA");
-    gtk_window_set_default_size(GTK_WINDOW(window), 800, 600);
-
+    
     Toolbar_Create();
     Viewport_Create();
-    Imagelist_Create();
+    Effectstack_Create();
     Colorchooser_Create();
+    AppMenu_Create();
+
 
     layoutBox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 15);
-    gtk_box_pack_start(GTK_BOX(layoutBox), GTK_WIDGET(Toolbar_GetWidget()), 1, 1, 15U);
+    gtk_box_pack_start(GTK_BOX(layoutBox), AppMenu_GetWidget(), TRUE, FALSE, 0U);
+    gtk_box_pack_start(GTK_BOX(layoutBox), GTK_WIDGET(Toolbar_GetWidget()), TRUE, FALSE, 15U);
     // Add Toolbar to master box
 
     GtkWidget* lowerBox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 15);
-    gtk_box_pack_start(GTK_BOX(lowerBox), Imagelist_GetWidget(), TRUE, TRUE, 15U);
-    gtk_box_pack_start(GTK_BOX(lowerBox), Viewport_GetWidget() , TRUE, TRUE, 15U);
-    gtk_box_pack_start(GTK_BOX(lowerBox), Colorchooser_GetWidget(), TRUE, TRUE, 15U);
+    gtk_box_pack_start(GTK_BOX(lowerBox), Effectstack_GetWidget(), TRUE, FALSE, 15U);
+    gtk_box_pack_start(GTK_BOX(lowerBox), Viewport_GetWidget() , TRUE, FALSE, 15U);
+    gtk_box_pack_start(GTK_BOX(lowerBox), Colorchooser_GetWidget(), TRUE, FALSE, 15U);
     // Add second box to layoutBox, to align image and files
 
-    gtk_box_pack_start(GTK_BOX(layoutBox), GTK_WIDGET(lowerBox), 1, 1, 15U);
+    gtk_box_pack_start(GTK_BOX(layoutBox), GTK_WIDGET(lowerBox), TRUE, FALSE, 15U);
 
 
     gtk_container_add(GTK_CONTAINER(window), layoutBox);
