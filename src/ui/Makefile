@@ -1,5 +1,6 @@
 CC=gcc
 GTKLIBS=`pkg-config --libs gtk+-3.0`
+LIBS=-ldl
 GTKFLAGS=`pkg-config --cflags gtk+-3.0`
 DEVFLAGS=-ggdb
 
@@ -14,4 +15,4 @@ show:
 	@echo ${OBJECTS}
 
 ../../bin/%.o: %.c
-	${CC} $^ ${GTKFLAGS} ${DEVFLAGS} ${GTKLIBS} -c -o $@
+	${CC} $^ ${GTKFLAGS} ${DEVFLAGS} ${GTKLIBS} ${LIBS} -c -o $@
