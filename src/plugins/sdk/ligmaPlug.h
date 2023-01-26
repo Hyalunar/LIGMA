@@ -9,13 +9,60 @@
 
 #include "../../logic/image.h"
 
-#define PARAMETERS_BEGIN() char* metadata = 
-#define ADD_PARAMETER(n, t) n "," #t "|"
-#define PARAMETERS_END() ;
+#include <glib.h>
+#include <stdint.h>
+#include <float.h>
 
-extern void  Ligma_OnLoad();
-extern void  Ligma_OnUnload();
-extern char* Ligma_GetPluginInfo();
-extern void  Ligma_Process(image_t* image);
+typedef struct PlugInfo {
+    GString*      name;
+    GString*     about;
+    GString* publisher;
+    GArray*  arguments;
+} pluginfo_t;
+
+typedef enum PlugArgumentType {
+    ARGUMENTTYPE_BOOL       ,
+    ARGUMENTTYPE_UINT32     ,
+    ARGUMENTTYPE_INT32      ,
+    ARGUMENTTYPE_FLOAT      ,
+    ARGUMENTTYPE_DOUBLE     ,
+    ARUGMENTTYPE_STRING     ,
+    ARGUMENTTYPE_INTRANGE   ,
+    ARGUMENTTYPE_FLOATRANGE
+} argumenttype_t;
+
+typedef struct IntRange {
+    int32_t min;
+    int32_t max;
+} intrange_t;
+
+typedef struct FloatRange {
+    float min;
+    float max;
+} floatrange_t;
+
+typedef struct PlugArgument {
+    /// @brief name of the argument
+    GString* name;
+    /// @brief Message to be displayed to the user
+    GString* userMessage;
+    /// @brief Type of the argument
+    argumenttype_t type;
+    /// @brief Segment for data only needed for special argument types
+    union {
+        intrange_t intRange;
+        floatrange_t floatRange;
+    } extradata;
+} plugargument_t;
+
+/// @brief Function to be executed when the plugin is loaded
+extern void        Ligma_OnLoad();
+/// @brief Function to be executed when the plugin is unloaded
+extern void        Ligma_OnUnload();
+/// @brief Function to inform the application about the plug
+/// @param pluginfo struct containing information about the plug
+/// @return error codes
+extern int Ligma_GetPlugInfo(pluginfo_t* pluginfo);
+extern void        Ligma_Process(image_t* image);
 
 #endif // LIGMAPLUG_H
