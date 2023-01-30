@@ -29,7 +29,7 @@ typedef enum PlugArgumentType {
     ARUGMENTTYPE_STRING     ,
     ARGUMENTTYPE_INTRANGE   ,
     ARGUMENTTYPE_FLOATRANGE
-} argumenttype_t;
+} argument_t;
 
 typedef struct IntRange {
     int32_t min;
@@ -47,7 +47,7 @@ typedef struct PlugArgument {
     /// @brief Message to be displayed to the user
     GString* userMessage;
     /// @brief Type of the argument
-    argumenttype_t type;
+    argument_t type;
     /// @brief Segment for data only needed for special argument types
     union {
         intrange_t intRange;
@@ -56,16 +56,16 @@ typedef struct PlugArgument {
 } plugargument_t;
 
 /// @brief Function to be executed when the plugin is loaded
-extern void        Ligma_OnLoad();
+extern int  Ligma_OnLoad();
 /// @brief Function to be executed when the plugin is unloaded
-extern void        Ligma_OnUnload();
+extern int  Ligma_OnUnload();
 /// @brief Function to inform the application about the plug
 /// @param pluginfo struct containing information about the plug
 /// @return error codes
-extern int         Ligma_GetPlugInfo(pluginfo_t* pluginfo);
+extern int  Ligma_GetPlugInfo(pluginfo_t* pluginfo);
 /// @brief Function exposed by the Plug which is called to process images
 /// @param image image to be processed
 /// @return error codes
-extern void        Ligma_Process(image_t* image);
+extern int  Ligma_Process(image_t* image);
 
 #endif // LIGMAPLUG_H
