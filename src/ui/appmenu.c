@@ -16,12 +16,14 @@ void AppMenu_PlugMenuItem_Create()
     GtkWidget* loadPlugItem;
     GtkWidget* unloadPlugItem;
     GtkWidget* reloadPlugItem;
+    GtkWidget* showPlugsItem;
     
     // Create widgets
     plugSubMenu    = gtk_menu_new();
     loadPlugItem   = gtk_menu_item_new_with_mnemonic("_Load Plug");
     unloadPlugItem = gtk_menu_item_new_with_mnemonic("_Unload Plug");
     reloadPlugItem = gtk_menu_item_new_with_mnemonic("_Reload Plug");
+    showPlugsItem  = gtk_menu_item_new_with_mnemonic("_Show Plugs");
 
     // Connect Signals
     //TODO: Connect signals
@@ -30,6 +32,7 @@ void AppMenu_PlugMenuItem_Create()
     gtk_menu_attach(GTK_MENU(plugSubMenu), loadPlugItem  , 0, 1, 0, 1);
     gtk_menu_attach(GTK_MENU(plugSubMenu), unloadPlugItem, 0, 1, 2, 3);
     gtk_menu_attach(GTK_MENU(plugSubMenu), reloadPlugItem, 0, 1, 4, 5);
+    gtk_menu_attach(GTK_MENU(plugSubMenu), showPlugsItem , 0, 1, 6, 7);
 
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(plugMenuItem), plugSubMenu);
 }
