@@ -62,7 +62,10 @@ extern void        Ligma_OnUnload();
 /// @brief Function to inform the application about the plug
 /// @param pluginfo struct containing information about the plug
 /// @return error codes
-extern int Ligma_GetPlugInfo(pluginfo_t* pluginfo);
+extern int         Ligma_GetPlugInfo(pluginfo_t* pluginfo);
+/// @brief Function exposed by the Plug which is called to process images
+/// @param image image to be processed
+/// @return error codes
 extern void        Ligma_Process(image_t* image);
 
 #endif // LIGMAPLUG_H
