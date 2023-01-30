@@ -4,6 +4,66 @@ GtkWidget* menuBar      = NULL;
 GtkWidget* fileMenuItem = NULL;
 GtkWidget* plugMenuItem = NULL;
 
+void AppMenu_LoadPlug_PassOn(void* fname, void* data)
+{
+    Load_PlugByPath(fname);
+}
+
+void AppMenu_LoadPlug_Callback()
+{
+    printf("Loading Plug!\n");
+    GtkFileChooserNative* fileDialog;
+    GtkFileChooser*       fileChooser;
+    GtkFileFilter*        fileFilter;
+
+    fileDialog = gtk_file_chooser_native_new(
+        "Select Plug SharedObject Library",
+        NULL,
+        GTK_FILE_CHOOSER_ACTION_OPEN,
+        "Load",
+        "Cancel");
+    
+    fileChooser = GTK_FILE_CHOOSER(fileDialog);
+    gtk_file_chooser_set_select_multiple(fileChooser, TRUE);
+
+    fileFilter = gtk_file_filter_new();
+
+    #ifdef __unix__
+    gtk_file_filter_add_mime_type(fileFilter, "application/x-sharedlib");
+    #elif _WIN32
+    gtk_file_filter_add_mime_type(fileFilter, "application/x-dosexec");
+    #endif
+
+    gtk_file_chooser_set_filter(fileChooser, fileFilter);
+
+    gint response = gtk_native_dialog_run(GTK_NATIVE_DIALOG(fileDialog));
+
+    if (response == GTK_RESPONSE_ACCEPT) {
+        GSList* plugFileNames = gtk_file_chooser_get_filenames(fileChooser);
+        g_slist_foreach(plugFileNames, AppMenu_LoadPlug_PassOn, NULL);
+        g_slist_free_full(plugFileNames, free);
+    }
+
+    gtk_native_dialog_destroy(GTK_NATIVE_DIALOG(fileDialog));
+    g_object_unref(fileDialog);
+    // This automatically unrefs fileChooser and fileFilter as well
+}
+
+void AppMenu_UnloadPlug_Callback()
+{
+    printf("Unloading Plug!\n");
+}
+
+void AppMenu_ReloadPlug_Callback()
+{
+    printf("Reloading Plug!\n");
+}
+
+void AppMenu_ShowPlugs_Callback()
+{
+    printf("Showing Plugs!\n");
+}
+
 void AppMenu_PlugMenuItem_Create()
 {
     if (plugMenuItem != NULL) {
@@ -27,6 +87,10 @@ void AppMenu_PlugMenuItem_Create()
 
     // Connect Signals
     //TODO: Connect signals
+    g_signal_connect(loadPlugItem  , "activate", AppMenu_LoadPlug_Callback  , NULL);
+    g_signal_connect(unloadPlugItem, "activate", AppMenu_UnloadPlug_Callback, NULL);
+    g_signal_connect(reloadPlugItem, "activate", AppMenu_ReloadPlug_Callback, NULL);
+    g_signal_connect(showPlugsItem , "activate", AppMenu_ShowPlugs_Callback  , NULL);
 
     // Add to submenu
     gtk_menu_attach(GTK_MENU(plugSubMenu), loadPlugItem  , 0, 1, 0, 1);

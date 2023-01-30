@@ -3,6 +3,8 @@
 
 #include <gtk/gtk.h>
 
+#include "../logic/plugManager.h"
+
 void AppMenu_Create();
 GtkWidget* AppMenu_GetWidget();
 
