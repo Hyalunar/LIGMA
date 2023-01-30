@@ -20,7 +20,11 @@ typedef struct Plug {
 } plug_t;
 
 void Init_PlugManager();
+void Destroy_PlugManager();
+
 int  Load_PlugByPath(char* path);
+int  Unload_PlugByName(GString* name);
+
 void PlugError(char* s);
 
 #endif // PLUGINMANAGER_H
