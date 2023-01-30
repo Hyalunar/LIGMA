@@ -4,6 +4,8 @@
 #include <glib.h>
 #include <dlfcn.h>
 
+#include <stdio.h>
+
 #include "../plugins/sdk/ligmaPlug.h"
 
 typedef struct Plug {
@@ -19,5 +21,6 @@ typedef struct Plug {
 
 void Init_PlugManager();
 int  Load_PlugByPath(char* path);
+void PlugError(char* s);
 
 #endif // PLUGINMANAGER_H
