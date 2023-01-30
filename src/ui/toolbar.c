@@ -30,7 +30,7 @@ void Toolbar_TbOpen_Onclick()
         "Cancel");
     
     fileChooser = GTK_FILE_CHOOSER(fileDialog);
-    gtk_file_chooser_set_select_multiple(fileChooser, TRUE);
+    gtk_file_chooser_set_select_multiple(fileChooser, FALSE);
 
     fileFilter = gtk_file_filter_new();
     gtk_file_filter_add_mime_type(fileFilter, "image/png");
