@@ -6,7 +6,7 @@ GtkWidget* plugMenuItem = NULL;
 
 void AppMenu_LoadPlug_PassOn(void* fname, void* data)
 {
-    Load_PlugByPath(fname);
+    PluginManager_LoadByPath(fname);
 }
 
 void AppMenu_LoadPlug_Callback()

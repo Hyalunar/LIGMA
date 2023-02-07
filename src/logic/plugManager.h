@@ -1,10 +1,14 @@
 #ifndef PLUGMANAGER_H
 #define PLUGMANAGER_H
 
-#include <glib.h>
-#include <dlfcn.h>
-
 #include <stdio.h>
+#include <glib.h>
+
+#ifdef __unix__
+#include <dlfcn.h>
+#elif _WIN32
+#include <Windows.h>
+#endif
 
 #include "../plugins/sdk/ligmaPlug.h"
 
@@ -16,15 +20,14 @@ typedef struct Plug {
     #endif
 
     pluginfo_t pluginfo;
-
 } plug_t;
 
-void Init_PlugManager();
-void Destroy_PlugManager();
+void PluginManager_Init();
+void PluginManager_Destroy();
 
-int  Load_PlugByPath(char* path);
-int  Unload_PlugByName(GString* name);
+int  PluginManager_LoadByPath(char* path);
+int  PluginManager_UnloadByName(GString* name);
 
-void PlugError(char* s);
+void PluginManager_PlugError(char* s);
 
 #endif // PLUGINMANAGER_H

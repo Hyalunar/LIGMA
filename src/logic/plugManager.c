@@ -2,8 +2,8 @@
 
 GArray *plugArray = NULL;
 
-/// @brief Initialize the global Plug Manager to render it able to manage the applications plugs
-void Init_PlugManager()
+/** @brief Initialize the global Plug Manager to render it able to manage the applications plugs **/
+void PluginManager_Init()
 {
     if (plugArray != NULL) {
         return;
@@ -11,25 +11,25 @@ void Init_PlugManager()
     plugArray = g_array_new(FALSE, FALSE, sizeof(plug_t));
 }
 
-void Destroy_PlugManager()
+void PluginManager_Destroy()
 {
 }
 
-/// @brief Error Handling for the Plug Manager
-/// @param s
-void PlugError(char *s)
+/** @brief Error Handling for the Plug Manager
+    @param s **/
+void PluginManager_PlugError(char *s)
 {
     printf(s);
 }
 
-/// @brief Load a Plug with a given path
-/// @param path plugin to load
-/// @return EINVAL, ENXIO, EXIT_SUCCESS
-/// The error code ... is returned when:
-/// EINVAL:    Failed to load plug
-/// ENXIO:     Could not find symbol within dll
-/// ECANCELED: Plugin operation failed
-int Load_PlugByPath(char *path)
+/** @brief Load a Plug with a given path
+    @param path plugin to load
+    @return EINVAL, ENXIO, EXIT_SUCCESS
+    The error code ... is returned when:
+    EINVAL:    Failed to load plug
+    ENXIO:     Could not find symbol within dll
+    ECANCELED: Plugin operation failed **/
+int PluginManager_LoadByPath(char *path)
 {
     plug_t plug;
 
@@ -42,22 +42,22 @@ int Load_PlugByPath(char *path)
     {
         return EINVAL;
     }
-    // Loaded Plug
+    /** Loaded Plug **/
 
-    // TODO: Make cleanup in return clauses
+    /** TODO: Make cleanup in return clauses **/
 
-    // Get info Function
-    dlerror(); // Clear the error
+    /** Get info Function **/
+    dlerror(); /** Clear the error **/
     int (*getPlugInfoFunc)(pluginfo_t *) = dlsym(plug.dll, "Ligma_GetPlugInfo");
     if (getPlugInfoFunc == NULL)
     {
-        PlugError(dlerror());
+        PluginManager_PlugError(dlerror());
         return ENXIO;
     }
 
     if (getPlugInfoFunc(&(plug.pluginfo)))
     {
-        PlugError("Failed to load Plugin info");
+        PluginManager_PlugError("Failed to load Plugin info");
         return ECANCELED;
     }
 
@@ -65,18 +65,18 @@ int Load_PlugByPath(char *path)
     int (*plugOnLoadFunc)(void) = dlsym(plug.dll, "Ligma_OnLoad");
     if (plugOnLoadFunc == NULL)
     {
-        PlugError(dlerror());
+        PluginManager_PlugError(dlerror());
         return ENXIO;
     }
 
     if (plugOnLoadFunc())
     {
-        PlugError("Loading the plug failed.");
+        PluginManager_PlugError("Loading the plug failed.");
         return ECANCELED;
     }
 
 #elif _WIN32
-/* sadly windows stuff */
+/** sadly windows stuff **/
 // TODO: Find someone to do this for me
 #endif
 
