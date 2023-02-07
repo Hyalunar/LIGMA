@@ -6,6 +6,8 @@ DIR_DELIM := /
 CC=gcc
 GTKLIBS=`pkg-config --libs gtk+-3.0`
 GTKFLAGS=`pkg-config --cflags gtk+-3.0`
+LIBS=-ldl
+PLUGFLAGS=`pkg-config --cflags glib-2.0` `pkg-config --libs glib-2.0`
 DEVFLAGS=-ggdb
 SHAREDFLAGS=-pie -shared
 
@@ -19,7 +21,7 @@ dev: bin/ligma-dev
 plugins: ${PLUGIN_DLLS}
 
 bin/ligma-dev: uiobjects logicobjects
-	${CC} $(wildcard bin${DIR_DELIM}*.o) src${DIR_DELIM}main.c ${GTKFLAGS} ${DEVFLAGS} -o bin${DIR_DELIM}ligma-dev ${GTKLIBS}
+	${CC} $(wildcard bin${DIR_DELIM}*.o) src${DIR_DELIM}main.c ${GTKFLAGS} ${DEVFLAGS} -o bin${DIR_DELIM}ligma-dev ${GTKLIBS} ${LIBS}
 
 uiobjects: src/ui/Makefile
 	cd src/ui && ${MAKE}
@@ -28,7 +30,7 @@ logicobjects: src/logic/Makefile
 	cd src/logic && ${MAKE}
 
 bin/plugs/%.so: src/plugins/%.c
-	${CC} $^ ${DEVFLAGS} ${SHAREDFLAGS} -o $@
+	${CC} $^ ${DEVFLAGS} ${SHAREDFLAGS} ${PLUGFLAGS} -o $@
 
 clean:
 	${RM} -r bin
