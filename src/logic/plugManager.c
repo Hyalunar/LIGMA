@@ -19,7 +19,7 @@ void PluginManager_Destroy()
     @param s **/
 void PluginManager_PlugError(char *s)
 {
-    printf(s);
+    puts(s);
 }
 
 /** @brief Load a Plug with a given path
