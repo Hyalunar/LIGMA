@@ -1,14 +1,17 @@
 #include "plugManager.h"
 
-GArray *plugArray = NULL;
+GArray*    plugArray     = NULL;
+GPtrArray* callbackArray = NULL;
 
 /** @brief Initialize the global Plug Manager to render it able to manage the applications plugs **/
 void PluginManager_Init()
 {
-    if (plugArray != NULL) {
-        return;
+    if (plugArray == NULL) {
+        plugArray = g_array_new(FALSE, FALSE, sizeof(plug_t));
     }
-    plugArray = g_array_new(FALSE, FALSE, sizeof(plug_t));
+    if (callbackArray == NULL) {
+        callbackArray = g_ptr_array_new();
+    }
 }
 
 void PluginManager_Destroy()
