@@ -1,4 +1,4 @@
-#include "pluginlister.hpp"
+#include "pluginlister.h"
 
 void PluginLister_Show()
 {
