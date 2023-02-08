@@ -30,7 +30,7 @@ void MainWindow_AppActivate(GtkApplication* app, gpointer user_data)
 
     layoutBox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 15);
     gtk_box_pack_start(GTK_BOX(layoutBox), AppMenu_GetWidget(), TRUE, FALSE, 0U);
-    gtk_box_pack_start(GTK_BOX(layoutBox), GTK_WIDGET(Toolbar_GetWidget()), TRUE, FALSE, 15U);
+    gtk_box_pack_start(GTK_BOX(layoutBox), Toolbar_GetWidget(), TRUE, FALSE, 15U);
     // Add Toolbar to master box
 
     GtkWidget* lowerBox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 15);
