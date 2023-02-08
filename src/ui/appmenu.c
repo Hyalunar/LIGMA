@@ -61,7 +61,7 @@ void AppMenu_ReloadPlug_Callback()
 
 void AppMenu_ShowPlugs_Callback()
 {
-    printf("Showing Plugs!\n");
+    PluginLister_Show();
 }
 
 void AppMenu_PlugMenuItem_Create()

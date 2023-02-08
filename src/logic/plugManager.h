@@ -27,6 +27,7 @@ void PluginManager_Destroy();
 
 int  PluginManager_LoadByPath(char* path);
 int  PluginManager_UnloadByName(GString* name);
+GArray* PluginManager_GetPluginList();
 
 void PluginManager_PlugError(char* s);
 

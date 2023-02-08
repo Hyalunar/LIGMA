@@ -1,8 +1,10 @@
 #include "plugManager.h"
 
-GArray *plugArray = NULL;
+GArray* plugArray = NULL;
 
-/** @brief Initialize the global Plug Manager to render it able to manage the applications plugs **/
+/**
+    @brief Initialize the global Plug Manager to render it able to manage the applications plugs
+**/
 void PluginManager_Init()
 {
     if (plugArray != NULL) {
@@ -15,20 +17,24 @@ void PluginManager_Destroy()
 {
 }
 
-/** @brief Error Handling for the Plug Manager
-    @param s **/
+/**
+    @brief Error Handling for the Plug Manager
+    @param s
+**/
 void PluginManager_PlugError(char *s)
 {
     printf(s);
 }
 
-/** @brief Load a Plug with a given path
+/** 
+    @brief Load a Plug with a given path
     @param path plugin to load
     @return EINVAL, ENXIO, EXIT_SUCCESS
     The error code ... is returned when:
     EINVAL:    Failed to load plug
     ENXIO:     Could not find symbol within dll
-    ECANCELED: Plugin operation failed **/
+    ECANCELED: Plugin operation failed
+**/
 int PluginManager_LoadByPath(char *path)
 {
     plug_t plug;
@@ -81,4 +87,12 @@ int PluginManager_LoadByPath(char *path)
 #endif
 
     g_array_append_val(plugArray, plug);
+}
+
+/**
+    @brief Returns the GArray with all loaded plugins.
+**/
+GArray* PluginManager_GetPluginList()
+{
+    return plugArray;
 }
