@@ -22,7 +22,7 @@ typedef struct Plug {
     pluginfo_t pluginfo;
 } plug_t;
 
-void PluginManager_Init();
+void PluginManager_Create();
 void PluginManager_Destroy();
 
 int  PluginManager_LoadByPath(char* path);

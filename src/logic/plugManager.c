@@ -4,7 +4,7 @@ GArray*    plugArray     = NULL;
 GPtrArray* callbackArray = NULL;
 
 /** @brief Initialize the global Plug Manager to render it able to manage the applications plugs **/
-void PluginManager_Init()
+void PluginManager_Create()
 {
     if (plugArray == NULL) {
         plugArray = g_array_new(FALSE, FALSE, sizeof(plug_t));
