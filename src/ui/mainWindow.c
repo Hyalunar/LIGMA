@@ -57,8 +57,7 @@ void MainWindow_AppActivate(GtkApplication* app, gpointer user_data)
 **/
 void MainWindow_AppShutdown(GtkApplication* app, gpointer user_data)
 {
-    // TODO: Do all windows close automatically?
-    //gtk_window_close(GTK_WINDOW(window));
-    //gtk_widget_destroy(GTK_WIDGET(window));
+    // All sub-widgets of your main-widget are closed automatically
+    Viewport_Destroy();
     printf("Bye!\n");
 }

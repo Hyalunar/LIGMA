@@ -121,3 +121,8 @@ GtkWidget* Viewport_GetWidget()
 {
     return drawingWidget;
 }
+
+void Viewport_Destroy()
+{
+    cairo_surface_destroy(widgetSurface);
+}

@@ -9,6 +9,7 @@
 #include "colorchooser.h"
 
 void Viewport_Create();
+void Viewport_Destroy();
 GtkWidget* Viewport_GetWidget();
 
 #endif // VIEWPORT_H
