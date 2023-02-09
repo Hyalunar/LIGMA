@@ -22,6 +22,12 @@ typedef struct Plug {
     pluginfo_t pluginfo;
 } plug_t;
 
+typedef enum PlugAction {
+    PLUGACTION_LOAD,
+    PLUGACTION_UNLOAD,
+    PLUGACTION_PROCESS
+} plugaction_t;
+
 void PluginManager_Create();
 void PluginManager_Destroy();
 

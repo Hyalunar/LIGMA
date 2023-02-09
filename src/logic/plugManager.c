@@ -25,7 +25,7 @@ void PluginManager_Destroy()
     }
 }
 
-void PluginManager_RegisterCallback(int (*function) (char* action, plug_t* plug))
+void PluginManager_RegisterCallback(int (*function) (plugaction_t action, plug_t* plug))
 {
     g_ptr_array_add(callbackArray, function);
 }
