@@ -16,6 +16,18 @@ void PluginManager_Init()
 
 void PluginManager_Destroy()
 {
+    if (plugArray != NULL) {
+        g_array_unref(plugArray);
+        //TODO: Add proper element free
+    }
+    if (callbackArray != NULL) {
+        g_ptr_array_unref,(callbackArray);
+    }
+}
+
+void PluginManager_RegisterCallback(int (*function) (char* action, plug_t* plug))
+{
+    g_ptr_array_add(callbackArray, function);
 }
 
 /** @brief Error Handling for the Plug Manager
