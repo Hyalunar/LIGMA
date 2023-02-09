@@ -17,15 +17,25 @@ void PluginManager_Create()
 void PluginManager_Destroy()
 {
     if (plugArray != NULL) {
+        // Free Memory allocated by elements
+        for (guint i = 0; i < plugArray->len; i++) {
+            plug_t* plug = &g_array_index(plugArray, plug_t, i);
+            
+            dlclose(plug->dll);
+            g_string_free(plug->pluginfo.about, TRUE);
+            g_string_free(plug->pluginfo.name, TRUE);
+            g_string_free(plug->pluginfo.publisher, TRUE);
+            g_array_free(plug->pluginfo.arguments, TRUE);
+        }
+
         g_array_unref(plugArray);
-        //TODO: Add proper element free
     }
     if (callbackArray != NULL) {
-        g_ptr_array_unref,(callbackArray);
+        g_ptr_array_unref(callbackArray);
     }
 }
 
-void PluginManager_RegisterCallback(int (*function) (char* action, plug_t* plug))
+void PluginManager_RegisterCallback(int (*function) (char action, plug_t* plug))
 {
     g_ptr_array_add(callbackArray, function);
 }
