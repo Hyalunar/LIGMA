@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <glib.h>
+#include <stdbool.h>
 
 #ifdef __unix__
 #include <dlfcn.h>
@@ -22,11 +23,25 @@ typedef struct Plug {
     pluginfo_t pluginfo;
 } plug_t;
 
+#define PLUGACTION_LOAD    0b1
+#define PLUGACTION_UNLOAD  0b01
+#define PLUGACTION_PROCESS 0b01
+#define PLUGACTION_ALL     0b11111111
+
+typedef struct PlugCallback {
+    int (*callback) (char, plug_t*);
+    char actions;
+} plugcallback_t;
+
 void PluginManager_Create();
 void PluginManager_Destroy();
 
 int  PluginManager_LoadByPath(char* path);
 int  PluginManager_UnloadByName(GString* name);
+
+void PluginManager_RegisterCallback(int (*function) (char, plug_t*), char actionMask);
+int  PluginManager_UnregisterCallback(int (*function) (char, plug_t*));
+void PluginManager_DoCallback(char eventActionMask, plug_t* plug);
 
 void PluginManager_PlugError(char* s);
 
