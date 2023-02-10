@@ -1,7 +1,7 @@
 #include "plugManager.h"
 
-GArray*    plugArray     = NULL;
-GPtrArray* callbackArray = NULL;
+GArray* plugArray     = NULL;
+GArray* callbackArray = NULL;
 
 /** @brief Initialize the global Plug Manager to render it able to manage the applications plugs **/
 void PluginManager_Create()
@@ -10,7 +10,7 @@ void PluginManager_Create()
         plugArray = g_array_new(FALSE, FALSE, sizeof(plug_t));
     }
     if (callbackArray == NULL) {
-        callbackArray = g_ptr_array_new();
+        callbackArray = g_array_new(FALSE, FALSE, sizeof(plugcallback_t));
     }
 }
 
@@ -25,9 +25,49 @@ void PluginManager_Destroy()
     }
 }
 
-void PluginManager_RegisterCallback(int (*function) (plugaction_t action, plug_t* plug))
+guint PluginManager_CallbackIndexByFunction(int (*function) (char, plug_t*))
 {
-    g_ptr_array_add(callbackArray, function);
+    guint index = callbackArray->len + 1;
+    bool found  = false;
+    plugcallback_t plug;
+    for (guint i = 0; (i < callbackArray->len) && (!found); i++) {
+        plug  = g_array_index(callbackArray, plugcallback_t, i);
+        found = plug.callback == function;
+        index = found ? i : index;
+    }
+
+    return index;
+}
+
+void PluginManager_DoCallback(char eventActionMask, plug_t* plug)
+{
+    plugcallback_t plugCallback;
+    for (guint i = 0; i < callbackArray->len; i++) {
+        plugCallback = g_array_index(callbackArray, plugcallback_t, i);
+        if (eventActionMask & plugCallback.actions) {
+            plugCallback.callback(eventActionMask, plug);
+        }
+    }
+}
+
+int PluginManager_UnregisterCallback(int (*function) (char, plug_t*))
+{
+    guint index = PluginManager_CallbackIndexByFunction(function);
+    if (index == callbackArray->len + 1) {
+        return EINVAL;
+    }
+
+    g_array_remove_index_fast(callbackArray, index);
+
+    return EXIT_SUCCESS;
+}
+
+void PluginManager_RegisterCallback(int (*function) (char, plug_t*), char actionMask)
+{
+    plugcallback_t plugCallback;
+    plugCallback.callback = function;
+    plugCallback.actions  = actionMask;
+    g_array_append_val(callbackArray, plugCallback);
 }
 
 /** @brief Error Handling for the Plug Manager
@@ -95,5 +135,6 @@ int PluginManager_LoadByPath(char *path)
 // TODO: Find someone to do this for me
 #endif
 
+    PluginManager_DoCallback(PLUGACTION_LOAD, &plug);
     g_array_append_val(plugArray, plug);
 }
