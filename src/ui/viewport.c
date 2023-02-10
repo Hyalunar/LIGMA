@@ -7,7 +7,7 @@ gboolean         LMButtonPressed = FALSE;
 void Viewport_ClearSurface()
 {
     cairo_t* cairo = cairo_create(widgetSurface); 
-    // Cairo Context
+    /** Cairo Context **/
 
     cairo_set_source_rgba(cairo, 1.0, 1.0, 1.0, 1.0);
     cairo_paint(cairo);
@@ -16,13 +16,13 @@ void Viewport_ClearSurface()
 }
 
 /**
- * @brief Callback for a buttonpress on the drawing viewport
- * 
- * @param widget Widget generating the callback
- * @param cr cairo-stuff
- * @param data data passed at signal registrations
- * @return FALSE
- */
+    @brief Callback for a buttonpress on the drawing viewport
+
+    @param widget Widget generating the callback
+    @param cr cairo-stuff
+    @param data data passed at signal registrations
+    @return FALSE
+**/
 gboolean Viewport_ButtonPressEvent_Callback(GtkWidget* widget, GdkEventButton* event, gpointer data)
 {
     if (event->button == GDK_BUTTON_PRIMARY) {
@@ -31,11 +31,12 @@ gboolean Viewport_ButtonPressEvent_Callback(GtkWidget* widget, GdkEventButton* e
     return FALSE;
 }
 
-/// @brief Callback for button releases
-/// @param widget Widget receiving the event
-/// @param event event received
-/// @param data passed data, ignored
-/// @return FALSE
+/** @brief Callback for button releases
+    @param widget Widget receiving the event
+    @param event event received
+    @param data passed data, ignored
+    @return FALSE
+**/
 gboolean Viewport_ButtonReleaseEvent_Callback(GtkWidget* widget, GdkEventButton* event, gpointer data)
 {
     if (event->button == GDK_BUTTON_PRIMARY) {
@@ -44,16 +45,17 @@ gboolean Viewport_ButtonReleaseEvent_Callback(GtkWidget* widget, GdkEventButton*
     return FALSE;
 }
 
-/// @brief Process Motion-Notify (Mouse-Move)(Hover) Event
-/// @param widget Widget receiving the event
-/// @param event event containing motion-data
-/// @param data passed-data, ignored
-/// @return FALSE
+/** @brief Process Motion-Notify (Mouse-Move)(Hover) Event
+    @param widget Widget receiving the event
+    @param event event containing motion-data
+    @param data passed-data, ignored
+    @return FALSE
+**/
 gboolean Viewport_MotionNotifyEvent_Callback(GtkWidget* widget, GdkEventMotion* event, gpointer data)
 {
     if (LMButtonPressed == TRUE) {
         cairo_t* cairo = cairo_create(widgetSurface);
-        // Cairo Context
+        /** Cairo Context **/
 
         GdkRGBA primaryRGBA = Colorchooser_GetPrimaryRGBA();
         cairo_set_source_rgba(cairo, primaryRGBA.red, primaryRGBA.green, primaryRGBA.blue, primaryRGBA.alpha);
@@ -67,11 +69,12 @@ gboolean Viewport_MotionNotifyEvent_Callback(GtkWidget* widget, GdkEventMotion* 
     return FALSE;
 }
 
-/// @brief Configure drawing Surface when widget is ready for configuration
-/// @param widget widget to configure
-/// @param event configureEvent
-/// @param data passed data, ignored
-/// @return TRUE
+/** @brief Configure drawing Surface when widget is ready for configuration
+    @param widget widget to configure
+    @param event configureEvent
+    @param data passed data, ignored
+    @return TRUE
+**/
 gboolean Viewport_ConfigureEvent_Callback(GtkWidget* widget, GdkEventConfigure* event, gpointer data)
 {
     if (widgetSurface != NULL) {
@@ -87,11 +90,11 @@ gboolean Viewport_ConfigureEvent_Callback(GtkWidget* widget, GdkEventConfigure* 
     Viewport_ClearSurface();
 
     gdk_window_set_event_compression(GDK_WINDOW(gtk_widget_get_window(drawingWidget)), FALSE);
-    // Disable event compression to receive all events
-    // Default is enabled, event compression compresses multiple
-    // events in short time to be compressed into one
+    /** Disable event compression to receive all events
+       Default is enabled, event compression compresses multiple
+       events in short time to be compressed into one **/
     
-    return TRUE; // Event handled
+    return TRUE; /** Event handled **/
 }
 
 gboolean Viewport_Draw_Callback(GtkWidget* Widget, cairo_t* cairo, gpointer data)
@@ -99,7 +102,7 @@ gboolean Viewport_Draw_Callback(GtkWidget* Widget, cairo_t* cairo, gpointer data
     cairo_set_source_surface(cairo, widgetSurface, 0, 0);
     cairo_paint(cairo);
 
-    return TRUE; //Event handled
+    return TRUE; /** Event handled **/
 }
 
 void Viewport_Create()
@@ -114,7 +117,7 @@ void Viewport_Create()
     g_signal_connect(G_OBJECT(drawingWidget), "draw", G_CALLBACK(Viewport_Draw_Callback), NULL);
 
     gtk_widget_set_halign(drawingWidget, GTK_ALIGN_CENTER);
-    // Center the drawing Widget on the screen
+    /** Center the drawing Widget on the screen **/
 }
 
 GtkWidget* Viewport_GetWidget()
