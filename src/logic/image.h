@@ -17,15 +17,15 @@ typedef struct ARGB32Pixel
 } pixel_t;
 
 
-/// @brief A struct representing the in-memory image
+/** @brief A struct representing the in-memory image **/
 typedef struct Image {
-    /// @brief image data in 2d-array-form
-    /// @details each element is a GArray containing pixel_t structs
+    /** @brief image data in 2d-array-form **/
+    /** @details each element is a GArray containing pixel_t structs **/
     GPtrArray*        rows;
-    /// @brief Pixel length of a row
+    /** @brief Pixel length of a row **/
     guint            width;
-    /// @brief Row count of the image
+    /** @brief Row count of the image **/
     guint           height;
 } image_t;
 
-#endif//IMAGES_H
+#endif //IMAGES_H
