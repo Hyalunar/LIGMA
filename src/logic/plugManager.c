@@ -31,15 +31,11 @@ void PluginManager_Destroy()
         g_array_unref(plugArray);
     }
     if (callbackArray != NULL) {
-        g_ptr_array_unref(callbackArray);
+        g_array_unref(callbackArray);
     }
 }
 
-<<<<<<< HEAD
-void PluginManager_RegisterCallback(int (*function) (char action, plug_t* plug))
-=======
 guint PluginManager_CallbackIndexByFunction(int (*function) (char, plug_t*))
->>>>>>> 70fdf1946308b571f89685a8af1672ab3dfc0854
 {
     guint index = callbackArray->len + 1;
     bool found  = false;
