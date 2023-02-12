@@ -46,7 +46,7 @@ void AppMenu_LoadPlug_Callback()
 
     gtk_native_dialog_destroy(GTK_NATIVE_DIALOG(fileDialog));
     g_object_unref(fileDialog);
-    // This automatically unrefs fileChooser and fileFilter as well
+    /** This automatically unrefs fileChooser and fileFilter as well **/
 }
 
 void AppMenu_UnloadPlug_Callback()
@@ -78,21 +78,21 @@ void AppMenu_PlugMenuItem_Create()
     GtkWidget* reloadPlugItem;
     GtkWidget* showPlugsItem;
     
-    // Create widgets
+    /** Create widgets **/
     plugSubMenu    = gtk_menu_new();
     loadPlugItem   = gtk_menu_item_new_with_mnemonic("_Load Plug");
     unloadPlugItem = gtk_menu_item_new_with_mnemonic("_Unload Plug");
     reloadPlugItem = gtk_menu_item_new_with_mnemonic("_Reload Plug");
     showPlugsItem  = gtk_menu_item_new_with_mnemonic("_Show Plugs");
 
-    // Connect Signals
-    //TODO: Connect signals
+    /** Connect Signals **/
+    //TODO: Connect remaining signals
     g_signal_connect(loadPlugItem  , "activate", AppMenu_LoadPlug_Callback  , NULL);
     g_signal_connect(unloadPlugItem, "activate", AppMenu_UnloadPlug_Callback, NULL);
     g_signal_connect(reloadPlugItem, "activate", AppMenu_ReloadPlug_Callback, NULL);
     g_signal_connect(showPlugsItem , "activate", AppMenu_ShowPlugs_Callback  , NULL);
 
-    // Add to submenu
+    /** Add to submenu **/
     gtk_menu_attach(GTK_MENU(plugSubMenu), loadPlugItem  , 0, 1, 0, 1);
     gtk_menu_attach(GTK_MENU(plugSubMenu), unloadPlugItem, 0, 1, 2, 3);
     gtk_menu_attach(GTK_MENU(plugSubMenu), reloadPlugItem, 0, 1, 4, 5);
@@ -114,23 +114,23 @@ void AppMenu_FileMenuItem_Create()
     GtkWidget* saveFileItem;
     GtkWidget* autoSaveItem;
 
-    // Create Widgets
+    /** Create Widgets **/
     fileSubMenu  = gtk_menu_new();
     newFileItem  = gtk_menu_item_new_with_mnemonic("_New");
     openFileItem = gtk_menu_item_new_with_mnemonic("_Open");
     saveFileItem = gtk_menu_item_new_with_mnemonic("_Save");
     autoSaveItem = gtk_check_menu_item_new_with_mnemonic("_Autosave");
 
-    // Connect signals
+    /** Connect signals **/
     // TODO: Actually connect signals
 
-    // Attach Widgets
+    /** Attach Widgets **/
     gtk_menu_attach(GTK_MENU(fileSubMenu), newFileItem , 0, 1, 0, 1);
     gtk_menu_attach(GTK_MENU(fileSubMenu), openFileItem, 0, 1, 2, 3);
     gtk_menu_attach(GTK_MENU(fileSubMenu), saveFileItem, 0, 1, 4, 5);
     gtk_menu_attach(GTK_MENU(fileSubMenu), autoSaveItem, 0, 1, 6, 7);
 
-    // Set submenu
+    /** Set submenu **/
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(fileMenuItem), fileSubMenu);
 }
 
@@ -149,7 +149,9 @@ void AppMenu_Create()
 
 }
 
-
+/**
+    @brief Returns the menu bars widget.
+**/
 GtkWidget* AppMenu_GetWidget()
 {
     return menuBar;
