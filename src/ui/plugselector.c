@@ -48,6 +48,7 @@ int PlugSelector_AddPlug(plug_t* plug)
     item.gtkItem     = gtkItem;
 
     gtk_list_box_insert(GTK_LIST_BOX(PlugSelector), gtkItem, 0);
+    gtk_widget_show(gtkItem);
     g_array_append_val(PlugSelectorItems, item);
 }
 
