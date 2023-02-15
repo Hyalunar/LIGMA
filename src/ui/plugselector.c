@@ -21,7 +21,7 @@ int PlugSelector_PlugLoadCallback(char actionMask, plug_t* plug)
 
 gboolean PlugSelector_UIPlugSelectedCallback(GtkWidget* widget, plug_t* plug)
 {
-    printf("Plug \"%s\" was selected\n", plug->pluginfo.name->str);
+    printf("Button was pressed\n");
     return TRUE;
 }
 
@@ -38,24 +38,29 @@ int PlugSelector_AddPlug(plug_t* plug)
         return EINVAL;
     }
 
-    GtkWidget* gtkItem = gtk_label_new(plug->pluginfo.name->str);
+    GtkWidget* gtkItem = gtk_button_new_with_label(plug->pluginfo.name->str);
     gtk_widget_set_events(gtkItem, gtk_widget_get_events(gtkItem) | GDK_BUTTON_PRESS_MASK);
 
-    g_signal_connect(gtkItem, "button-press-event", G_CALLBACK(PlugSelector_UIPlugSelectedCallback), plug);
+    g_signal_connect(gtkItem, "button-press-event", G_CALLBACK(PlugSelector_UIPlugSelectedCallback), NULL);
 
     plugselectoritem_t item;
     item.plug        = plug;
     item.gtkItem     = gtkItem;
 
-    gtk_list_box_insert(GTK_LIST_BOX(PlugSelector), gtkItem, 0);
-    gtk_widget_show(gtkItem);
+
     g_array_append_val(PlugSelectorItems, item);
+    plugselectoritem_t* newItemLocation = &g_array_index(PlugSelectorItems, plugselectoritem_t, PlugSelectorItems->len - 1);
+
+    gtk_container_add(GTK_CONTAINER(PlugSelector), item.gtkItem);
+    
+    gtk_widget_show(newItemLocation->gtkItem);
+    gtk_widget_show(gtkItem);
 }
 
 void PlugSelector_Create()
 {
     if (PlugSelector == NULL) {
-        PlugSelector = gtk_list_box_new();
+        PlugSelector = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
     }
     if (PlugSelectorItems == NULL) {
         PlugSelectorItems = g_array_new(TRUE, TRUE, sizeof(plugselectoritem_t));
