@@ -114,8 +114,10 @@ int PlugManager_LoadPlugFunctions(plug_t* plug)
     #endif
 
     if (plug->loadFunction == NULL || plug->unloadFunction == NULL || plug->infoFunction == NULL || plug->processFunction == NULL) {
-        return ENOMEDIUM;
+        return ENXIO;
     }
+
+    return EXIT_SUCCESS;
 }
 
 /** @brief Load a Plug with a given path
@@ -144,7 +146,17 @@ int PluginManager_LoadByPath(char *path)
         // TODO: Find someone to do this for me
     #endif
 
+    // Load Plug-Functions provided by the SharedObject File
+    if (PlugManager_LoadPlugFunctions(&plug) == ENXIO) {
+        dlclose(plug.dll);
+        return ENXIO;
+    }
 
+    // Retrieve Plug Information from the provided function
+    if (plug.infoFunction(&plug.pluginfo)) {
+        dlclose(plug.dll);
+        return ECANCELED;
+    }
 
     PluginManager_DoCallback(PLUGACTION_LOAD, &plug);
     g_array_append_val(plugArray, plug);
