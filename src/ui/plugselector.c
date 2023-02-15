@@ -54,7 +54,6 @@ int PlugSelector_AddPlug(plug_t* plug)
     gtk_container_add(GTK_CONTAINER(PlugSelector), item.gtkItem);
     
     gtk_widget_show(newItemLocation->gtkItem);
-    gtk_widget_show(gtkItem);
 }
 
 void PlugSelector_Create()
