@@ -38,7 +38,7 @@ int PlugSelector_AddPlug(plug_t* plug)
         return EINVAL;
     }
 
-    GtkWidget* gtkItem = gtk_label_new(plug->pluginfo.name->str);
+    GtkWidget* gtkItem = gtk_button_new_with_label(plug->pluginfo.name->str);
     gtk_widget_set_events(gtkItem, gtk_widget_get_events(gtkItem) | GDK_BUTTON_PRESS_MASK);
 
     g_signal_connect(gtkItem, "button-press-event", G_CALLBACK(PlugSelector_UIPlugSelectedCallback), plug);
@@ -47,14 +47,15 @@ int PlugSelector_AddPlug(plug_t* plug)
     item.plug        = plug;
     item.gtkItem     = gtkItem;
 
-    gtk_list_box_insert(GTK_LIST_BOX(PlugSelector), gtkItem, 0);
+    gtk_container_add(GTK_CONTAINER(PlugSelector), gtkItem);
+    gtk_widget_show(gtkItem);
     g_array_append_val(PlugSelectorItems, item);
 }
 
 void PlugSelector_Create()
 {
     if (PlugSelector == NULL) {
-        PlugSelector = gtk_list_box_new();
+        PlugSelector = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
     }
     if (PlugSelectorItems == NULL) {
         PlugSelectorItems = g_array_new(TRUE, TRUE, sizeof(plugselectoritem_t));
