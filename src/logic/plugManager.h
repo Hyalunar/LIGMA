@@ -43,16 +43,16 @@ typedef struct PlugCallback {
     char actions;
 } plugcallback_t;
 
-void PluginManager_Create();
-void PluginManager_Destroy();
+void PlugManager_Create();
+void PlugManager_Destroy();
 
-int  PluginManager_LoadByPath(char* path);
-int  PluginManager_UnloadByName(GString* name);
+int  PlugManager_LoadByPath(char* path);
+int  PlugManager_UnloadByName(GString* name);
 
-void PluginManager_RegisterCallback(int (*function) (char, plug_t*), char actionMask);
-int  PluginManager_UnregisterCallback(int (*function) (char, plug_t*));
-void PluginManager_DoCallback(char eventActionMask, plug_t* plug);
+void PlugManager_RegisterCallback(int (*function) (char, plug_t*), char actionMask);
+int  PlugManager_UnregisterCallback(int (*function) (char, plug_t*));
+void PlugManager_DoCallback(char eventActionMask, plug_t* plug);
 
-void PluginManager_PlugError(char* s);
+void PlugManager_PlugError(char* s);
 
 #endif // PLUGINMANAGER_H

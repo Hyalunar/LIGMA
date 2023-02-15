@@ -8,14 +8,15 @@ GtkWidget* PlugSelector_GetWidget()
     return PlugSelector;
 }
 
-int PlugSelector_PlugManagerUnloadCallback(char actionMask, plug_t* plug)
+int PlugSelector_PlugUnloadCallback(char actionMask, plug_t* plug)
 {
     printf("Unloaded %s\n", plug->pluginfo.name->str);
 }
 
-int PlugSelector_PlugManagerLoadCallback(char actionMask, plug_t* plug)
+int PlugSelector_PlugLoadCallback(char actionMask, plug_t* plug)
 {
     printf("Loaded %s\n", plug->pluginfo.name->str);
+    PlugSelector_AddPlug(plug);
 }
 
 gboolean PlugSelector_UIPlugSelectedCallback(GtkWidget* widget, plug_t* plug)
@@ -58,8 +59,10 @@ void PlugSelector_Create()
     if (PlugSelectorItems == NULL) {
         PlugSelectorItems = g_array_new(TRUE, TRUE, sizeof(plugselectoritem_t));
     }
-    PluginManager_RegisterCallback(PlugSelector_PlugManagerLoadCallback, PLUGACTION_LOAD);
-    PluginManager_RegisterCallback(PlugSelector_PlugManagerUnloadCallback, PLUGACTION_UNLOAD);
+
+    
+    PlugManager_RegisterCallback(PlugSelector_PlugLoadCallback, PLUGACTION_LOAD);
+    PlugManager_RegisterCallback(PlugSelector_PlugUnloadCallback, PLUGACTION_UNLOAD);
 }
 
 void PlugSelector_Destroy()
@@ -67,6 +70,6 @@ void PlugSelector_Destroy()
     if (PlugSelectorItems != NULL) {
         g_array_unref(PlugSelectorItems);
     }
-    PluginManager_UnregisterCallback(PlugSelector_PlugManagerLoadCallback);
-    PluginManager_UnregisterCallback(PlugSelector_PlugManagerUnloadCallback);
+    PlugManager_UnregisterCallback(PlugSelector_PlugLoadCallback);
+    PlugManager_UnregisterCallback(PlugSelector_PlugUnloadCallback);
 }

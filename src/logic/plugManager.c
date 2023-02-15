@@ -4,7 +4,7 @@ GArray* plugArray     = NULL;
 GArray* callbackArray = NULL;
 
 /** @brief Initialize the global Plug Manager to render it able to manage the applications plugs **/
-void PluginManager_Create()
+void PlugManager_Create()
 {
     if (plugArray == NULL) {
         plugArray = g_array_new(FALSE, FALSE, sizeof(plug_t));
@@ -14,7 +14,7 @@ void PluginManager_Create()
     }
 }
 
-void PluginManager_Destroy()
+void PlugManager_Destroy()
 {
     if (plugArray != NULL) {
         // Free Memory allocated by elements
@@ -52,7 +52,7 @@ guint PluginManager_CallbackIndexByFunction(int (*function) (char, plug_t*))
 /// @brief Iterate over all registered callback functions and call those that match the eventActionMask
 /// @param eventActionMask mask to be matched by a callback
 /// @param plug Plug to be passed as an argument when the callback is called
-void PluginManager_DoCallback(char eventActionMask, plug_t* plug)
+void PlugManager_DoCallback(char eventActionMask, plug_t* plug)
 {
     plugcallback_t plugCallback;
     for (guint i = 0; i < callbackArray->len; i++) {
@@ -68,7 +68,7 @@ void PluginManager_DoCallback(char eventActionMask, plug_t* plug)
 /// @return EINVAL: invalid function argument
 /// @return ENOMEDIUM: No callback with the specified attributes could be found
 /// @return EXIT_SUCCESS: Success, get it?
-int PluginManager_UnregisterCallback(int (*function) (char, plug_t*))
+int PlugManager_UnregisterCallback(int (*function) (char, plug_t*))
 {
     if (function == NULL) {
         return EINVAL;
@@ -87,7 +87,7 @@ int PluginManager_UnregisterCallback(int (*function) (char, plug_t*))
 /// @brief Register a callback at the PlugManager to be called when a specified event occurs
 /// @param function callback function
 /// @param actionMask mask including only the actions this plug should be called with
-void PluginManager_RegisterCallback(int (*function) (char, plug_t*), char actionMask)
+void PlugManager_RegisterCallback(int (*function) (char, plug_t*), char actionMask)
 {
     plugcallback_t plugCallback;
     plugCallback.callback = function;
@@ -97,7 +97,7 @@ void PluginManager_RegisterCallback(int (*function) (char, plug_t*), char action
 
 /** @brief Error Handling for the Plug Manager
     @param s **/
-void PluginManager_PlugError(char *s)
+void PlugManager_PlugError(char *s)
 {
     puts(s);
 }
@@ -127,7 +127,7 @@ int PlugManager_LoadPlugFunctions(plug_t* plug)
     EINVAL:    Failed to load plug
     ENXIO:     Could not find symbol within dll
     ECANCELED: Plugin operation failed **/
-int PluginManager_LoadByPath(char *path)
+int PlugManager_LoadByPath(char *path)
 {
     plug_t plug;
 
@@ -158,7 +158,7 @@ int PluginManager_LoadByPath(char *path)
         return ECANCELED;
     }
 
-    PluginManager_DoCallback(PLUGACTION_LOAD, &plug);
+    PlugManager_DoCallback(PLUGACTION_LOAD, &plug);
     g_array_append_val(plugArray, plug);
 }
 
@@ -167,7 +167,7 @@ int PluginManager_LoadByPath(char *path)
 /// @return ENOMEDIUM: No such plugin was found
 /// @return EINVAL: GString was invalid
 /// @return EXIT_SUCCESS: Operation performed successfully
-int PluginManager_UnloadByName(GString* name)
+int PlugManager_UnloadByName(GString* name)
 {
     plug_t* plug;
     guint   plugIndex;
@@ -184,7 +184,7 @@ int PluginManager_UnloadByName(GString* name)
     }
 
 
-    PluginManager_DoCallback(PLUGACTION_UNLOAD, plug);
+    PlugManager_DoCallback(PLUGACTION_UNLOAD, plug);
 
     #ifdef __unix__
     dlclose(plug->dll);
