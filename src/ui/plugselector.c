@@ -19,9 +19,10 @@ int PlugSelector_PlugLoadCallback(char actionMask, plug_t* plug)
     PlugSelector_AddPlug(plug);
 }
 
-gboolean PlugSelector_UIPlugSelectedCallback(GtkWidget* widget, plug_t* plug)
+gboolean PlugSelector_UIPlugSelectedCallback(GtkWidget* widget, void* data)
 {
-    printf("Button was pressed\n");
+    puts(gtk_button_get_label(GTK_BUTTON(widget)));
+    printf("Received Address %x\n", data);
     return TRUE;
 }
 
@@ -41,11 +42,17 @@ int PlugSelector_AddPlug(plug_t* plug)
     GtkWidget* gtkItem = gtk_button_new_with_label(plug->pluginfo.name->str);
     gtk_widget_set_events(gtkItem, gtk_widget_get_events(gtkItem) | GDK_BUTTON_PRESS_MASK);
 
-    g_signal_connect(gtkItem, "button-press-event", G_CALLBACK(PlugSelector_UIPlugSelectedCallback), NULL);
-
     plugselectoritem_t item;
-    item.plug        = plug;
+    item.plugName    = plug->pluginfo.name;
     item.gtkItem     = gtkItem;
+
+    void* address = (void*) 0x12345678;
+    printf("Passed address %x\n", address);
+    g_signal_connect(gtkItem, 
+                "button-press-event", 
+                G_CALLBACK(PlugSelector_UIPlugSelectedCallback), 
+                address);
+    //TODO: Figure out why this address is changed in between
 
 
     g_array_append_val(PlugSelectorItems, item);

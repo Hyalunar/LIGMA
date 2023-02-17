@@ -6,7 +6,7 @@
 
 typedef struct PlugSelectorItem {
     GtkWidget* gtkItem;
-    plug_t*    plug;
+    GString*   plugName;
 } plugselectoritem_t;
 
 void PlugSelector_Create();
