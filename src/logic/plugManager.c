@@ -35,6 +35,31 @@ void PlugManager_Destroy()
     }
 }
 
+int PlugManager_PlugByName(GString* name, plug_t* plugLocation)
+{
+    if (name == NULL) {
+        return EINVAL;
+    }
+
+    guint index = -1;
+    for (guint i = 0; i < plugArray->len; i++) {
+        plug_t* currentPlug = &g_array_index(plugArray, plug_t, i);
+        
+        if (g_string_equal(name, currentPlug->pluginfo.name)) {
+            index = i;
+            break;
+        }
+    }
+
+    if (index == -1) {
+        return ENXIO;
+    }
+
+    plugLocation[0] = g_array_index(plugArray, plug_t, index);
+
+    return EXIT_SUCCESS;
+}
+
 guint PluginManager_CallbackIndexByFunction(int (*function) (char, plug_t*))
 {
     guint index = callbackArray->len + 1;
