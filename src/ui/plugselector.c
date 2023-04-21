@@ -21,8 +21,17 @@ int PlugSelector_PlugLoadCallback(char actionMask, plug_t* plug)
 
 gboolean PlugSelector_UIPlugSelectedCallback(GtkWidget* widget, void* data)
 {
-    puts(gtk_button_get_label(GTK_BUTTON(widget)));
-    printf("Received Address %x\n", data);
+    GString* plugDisplayName = g_string_new(gtk_button_get_label(GTK_BUTTON(widget)));
+    plug_t plug_ro;
+    if (PlugManager_PlugByDisplayName(plugDisplayName, &plug_ro) != EXIT_SUCCESS) {
+	    //TODO: Show some error message
+	    printf("Plug \"%s\" not found\n", plugDisplayName->str);
+    }
+
+    Effectstack_InsertEffect(plugDisplayName, -1);
+
+    g_string_free(plugDisplayName, TRUE);
+
     return TRUE;
 }
 
@@ -39,20 +48,17 @@ int PlugSelector_AddPlug(plug_t* plug)
         return EINVAL;
     }
 
-    GtkWidget* gtkItem = gtk_button_new_with_label(plug->pluginfo.name->str);
+    GtkWidget* gtkItem = gtk_button_new_with_label(plug->pluginfo.displayName->str);
     gtk_widget_set_events(gtkItem, gtk_widget_get_events(gtkItem) | GDK_BUTTON_PRESS_MASK);
 
     plugselectoritem_t item;
     item.plugName    = plug->pluginfo.name;
     item.gtkItem     = gtkItem;
 
-    void* address = (void*) 0x12345678;
-    printf("Passed address %x\n", address);
     g_signal_connect(gtkItem, 
                 "button-press-event", 
                 G_CALLBACK(PlugSelector_UIPlugSelectedCallback), 
-                address);
-    //TODO: Figure out why this address is changed in between
+                NULL);
 
 
     g_array_append_val(PlugSelectorItems, item);
@@ -61,6 +67,8 @@ int PlugSelector_AddPlug(plug_t* plug)
     gtk_container_add(GTK_CONTAINER(PlugSelector), item.gtkItem);
     
     gtk_widget_show(newItemLocation->gtkItem);
+
+    return EXIT_SUCCESS;
 }
 
 void PlugSelector_Create()

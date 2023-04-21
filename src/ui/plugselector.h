@@ -3,6 +3,7 @@
 
 #include <gtk/gtk.h>
 #include "../logic/plugManager.h"
+#include "../ui/effectstack.h"
 
 typedef struct PlugSelectorItem {
     GtkWidget* gtkItem;
