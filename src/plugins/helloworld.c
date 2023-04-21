@@ -17,10 +17,11 @@ int Ligma_OnUnload()
 
 int Ligma_GetPlugInfo(pluginfo_t* pluginfo)
 {
-    pluginfo->name      = g_string_new("Hello World Plug");
-    pluginfo->about     = g_string_new("This is the Hello World Plug");
-    pluginfo->publisher = g_string_new("Hyalunar");
-    pluginfo->arguments = g_array_new(TRUE, TRUE, sizeof(argument_t));
+    pluginfo->name        = g_string_new("Hello World Plug");
+    pluginfo->displayName = g_string_new("Hello World");
+    pluginfo->about       = g_string_new("This is the Hello World Plug");
+    pluginfo->publisher   = g_string_new("Hyalunar");
+    pluginfo->arguments   = g_array_new(TRUE, TRUE, sizeof(argument_t));
     return 0;
 }
 

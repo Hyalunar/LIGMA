@@ -15,6 +15,7 @@
 
 typedef struct PlugInfo {
     GString* name;
+    GString* displayName;
     GString* about;
     GString* publisher;
     GArray*  arguments;
