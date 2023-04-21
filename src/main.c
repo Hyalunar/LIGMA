@@ -9,7 +9,7 @@ int main(int argc, char** argv)
 
     PlugManager_Create();
 
-    app = gtk_application_new("org.ligma", G_APPLICATION_FLAGS_DEFAULT);
+    app = gtk_application_new("org.ligma", G_APPLICATION_DEFAULT_FLAGS);
     g_signal_connect(app, "activate", G_CALLBACK(MainWindow_AppActivate), NULL);
     g_signal_connect(app, "shutdown", G_CALLBACK(MainWindow_AppShutdown), NULL);
     status = g_application_run(G_APPLICATION(app), argc, argv);
