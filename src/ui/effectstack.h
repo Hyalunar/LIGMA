@@ -6,4 +6,6 @@
 void Effectstack_Create();
 GtkWidget* Effectstack_GetWidget();
 
-#endif // FILELIST_H
+int Effectstack_InsertEffect(GString* effectName, gint position);
+
+#endif // EFFECTSTACK_H
