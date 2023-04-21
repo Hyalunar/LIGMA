@@ -49,6 +49,7 @@ void PlugManager_Destroy();
 int  PlugManager_LoadByPath(char* path);
 int  PlugManager_UnloadByName(GString* name);
 
+int  PlugManager_PlugByDisplayName(GString* name, plug_t* plugLocation);
 int  PlugManager_PlugByName(GString* name, plug_t* plugLocation);
 
 void PlugManager_RegisterCallback(int (*function) (char, plug_t*), char actionMask);

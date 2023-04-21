@@ -35,6 +35,32 @@ void PlugManager_Destroy()
     }
 }
 
+// READ-ONLY-Access
+int PlugManager_PlugByDisplayName(GString* displayName, plug_t* plugLocation)
+{
+	if (displayName == NULL) {
+		return EINVAL;
+	}
+
+	guint index = -1;
+	for (guint i = 0; i < plugArray->len; i++) {
+        plug_t* currentPlug = &g_array_index(plugArray, plug_t, i);
+        
+        if (g_string_equal(displayName, currentPlug->pluginfo.displayName)) {
+            index = i;
+            break;
+        }
+    }
+
+    if (index == -1) {
+        return ENXIO;
+    }
+
+    plugLocation[0] = g_array_index(plugArray, plug_t, index);
+
+    return EXIT_SUCCESS;
+}
+
 int PlugManager_PlugByName(GString* name, plug_t* plugLocation)
 {
     if (name == NULL) {
